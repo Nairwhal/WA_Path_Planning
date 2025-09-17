@@ -1,6 +1,7 @@
 #include "PathPlanner.h"
 
 Candidate::Candidate(int x, int y, int risk, int endX, int endY) {
+    std::cout << "Hello" << std::endl;
     this->parent = nullptr;
     this->x = x;
     this->y = y;
@@ -21,17 +22,22 @@ Candidate::Candidate(Candidate &parent, int xChange, int yChange, int risk, int 
     this->heuristic = risk * RISK_FACTOR + airDistance + pathDistance;
 }
 
-int Candidate::compareTo(Candidate &other) {
-    return this->heuristic - other.heuristic;
-}
+int* planPath(int width, int height, int widthStride, int heightStride, int* riskData, int maxRange, int startCoordX, int startCoordY, int endX, int endY) {
+    std::cout << width << ", " << height << ", " << widthStride << ", " << heightStride << ", " << maxRange << ", " << startCoordX << ", " << startCoordY << ", " << endX << ", " << endY << ", " << std::endl;
+    std::cout << riskData << ", " << *riskData << std::endl;
 
-int* planPath(int width, int height, int widthStride, int heightStride, float* riskData, int maxRange, int startCoordX, int startCoordY, int endX, int endY) {
-    std::cout << "Hello!" << std::endl;
+    auto candidateComparer = [](Candidate &a, Candidate &b){return a.heuristic <= b.heuristic;};
+    std::cout << "1" << std::endl;
+    std::priority_queue<Candidate, std::vector<Candidate>, decltype(candidateComparer)> queue(candidateComparer);
+    std::cout << "2" << std::endl;
+    Candidate startCandidate(startCoordX, startCoordY, *(riskData + widthStride * startCoordX + heightStride * startCoordY), endX, endY);
+    std::cout << "3" << std::endl;
+    queue.push(startCandidate);
     return new int[0];
 }
 
 extern "C" {
-    int* planPath_c(int width, int height, int widthStride, int heightStride, float* riskData, int maxRange, int startCoordX, int startCoordY, int endX, int endY) {
+    int* planPath_c(int width, int height, int widthStride, int heightStride, int* riskData, int maxRange, int startCoordX, int startCoordY, int endX, int endY) {
         return planPath(width, height, widthStride, heightStride, riskData, maxRange, startCoordX, startCoordY, endX, endY);
     }
 }

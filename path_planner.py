@@ -29,7 +29,7 @@ class PathPlanner:
         height = self.map_info.risk_zones.ctypes.shape[1]
         widthStride = self.map_info.risk_zones.ctypes.strides[0]
         heightStride = self.map_info.risk_zones.ctypes.strides[1]
-        data = self.map_info.risk_zones.ctypes.data
+        data = self.map_info.risk_zones.ctypes.data_as(ctypes.c_int)
         #print(width)
         #print(height)
         #print(widthStride)
