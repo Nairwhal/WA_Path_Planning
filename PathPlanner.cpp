@@ -1,10 +1,10 @@
 #include "PathPlanner.h"
 
-Candidate::Candidate(int x, int y, int endX, int endY) {
+Candidate::Candidate(int x, int y, int risk, int endX, int endY) {
 
 }
 
-Candidate::Candidate(Candidate &parent, int xChange, int yChange, int endX, int endY) {
+Candidate::Candidate(Candidate &parent, int xChange, int yChange, int risk, int endX, int endY) {
 
 }
 

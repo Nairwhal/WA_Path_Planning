@@ -5,12 +5,13 @@ class Candidate {
         Candidate* parent;
         int x;
         int y;
+        int risk;
         float airDistance;
         float pathDistance;
         float heuristic;
 
-        Candidate(int x, int y, int endX, int endY);
-        Candidate(Candidate &parent, int xChange, int yChange, int endX, int endY);
+        Candidate(int x, int y, int risk, int endX, int endY);
+        Candidate(Candidate &parent, int xChange, int yChange, int risk, int endX, int endY);
 
         int compareTo(Candidate &other);
 };
