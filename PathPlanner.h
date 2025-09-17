@@ -1,4 +1,7 @@
 #include <iostream>
+#include <cmath>
+
+constexpr float RISK_FACTOR = 10;
 
 class Candidate {
     public:
