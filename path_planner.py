@@ -17,7 +17,8 @@ from map_info import Coordinate, Destination, MapInfo
 
 import ctypes
 
-f = ctypes.CDLL("./PathPlanner.so").planPath_c
+cPathPlan = ctypes.CDLL("./PathPlanner.so").planPath_c
+cPathPlan.restype = ctypes.POINTER(ctypes.c_int)
 
 class PathPlanner:
     def __init__(self, map_info: MapInfo, destinations: typing.List["Destination"]):
@@ -27,22 +28,11 @@ class PathPlanner:
     def plan_paths(self):
         width = self.map_info.risk_zones.ctypes.shape[0]
         height = self.map_info.risk_zones.ctypes.shape[1]
-        widthStride = self.map_info.risk_zones.ctypes.strides[0]
-        heightStride = self.map_info.risk_zones.ctypes.strides[1]
-        data = self.map_info.risk_zones.ctypes.data_as(ctypes.c_int)
-        #print(width)
-        #print(height)
-        #print(widthStride)
-        #print(heightStride)
-        #print(data)
+        data = self.map_info.risk_zones.ctypes.data_as(ctypes.POINTER(ctypes.c_double))
 
         maxRange = self.map_info.maximum_range;
         startCoordX = self.map_info.start_coord[0];
         startCoordY = self.map_info.start_coord[1];
-        #print(maxRange)
-        #print(startCoordX)
-        #print(startCoordY)
-        f(width, height, widthStride, heightStride, data, maxRange, startCoordX, startCoordY, 0, 0)
         """
         This is the function you should re-write. It is expected to mutate the list of
         destinations by calling each Destination's set_path() with the resulting
@@ -51,9 +41,11 @@ class PathPlanner:
         The default construction shows this format, and should produce 10 invalid paths.
         """
         for site in self.destinations:
-            # YOUR CODE REPLACES THIS / WILL PLUG IN HERE
-            path_array = np.linspace(self.map_info.start_coord, site.coord, 10)
-            path_coords = [Coordinate(arr[0], arr[1]) for arr in path_array]
+            path_coords_ptr = cPathPlan(width, height, data, maxRange, startCoordX, startCoordY, site.coord[0], site.coord[1])
+            path_coords = []
+
+            for i in range(path_coords_ptr[0]):
+                path_coords.append(Coordinate(path_coords_ptr[1 + i * 2], path_coords_ptr[2 + i * 2]));
 
             # Once you have a solution for the site - populate it like this:
             site.set_path(path_coords)

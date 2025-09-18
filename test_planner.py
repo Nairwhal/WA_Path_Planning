@@ -48,3 +48,4 @@ if __name__ == "__main__":
     # show the results in the terminal, and save to disk
     print(get_results(map_info, destinations))
     display_and_save_result_image(map_info, destinations)
+    print("finished")
