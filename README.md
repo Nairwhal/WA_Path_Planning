@@ -4,4 +4,5 @@ Considering the integer grid-structure, I decided to go with A\*, where my heuri
 
 #### Notes:
 
-- The results_fig.png was taking very long to generate? As such, it currently isn't showing my paths, but I'll attempt to let it generate tomorrow (9/18/25)
+- The results_fig.png is not updated to include a new image after the risk-heuristic fix (issues generating on my system)
+- Contact: nsookraj@wisc.edu
