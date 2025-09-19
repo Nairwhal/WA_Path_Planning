@@ -20,7 +20,7 @@ Candidate::Candidate(Candidate *parent, int xChange, int yChange, double risk, i
     this->airDistance = std::sqrt((endX - x) * (endX - x) + (endY - y) * (endY - y));
     this->pathDistance = parent->pathDistance + 
         ((xChange != 0 && yChange != 0) ? std::sqrt(2) : 1);
-    this->heuristic = risk * RISK_FACTOR + airDistance + pathDistance;
+    this->heuristic = this->risk * RISK_FACTOR + airDistance + pathDistance;
 }
 
 int* planPath(int width, int height, double* riskData, int maxRange, int startCoordX, int startCoordY, int endX, int endY) {
